@@ -1,0 +1,93 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Task List</title>
+
+    <!-- This is the main css file for the default Alta theme -->
+    <link rel="stylesheet" href="https://[[YOUR_PROCESS_DOMAIN]]/ic/pub/components/css/libs/oj/v3.2.0/alta/oj-alta-min.css" type="text/css"/>
+
+    <!-- This is where you would add any app specific styling -->
+    <link rel="stylesheet" href="https://[[YOUR_PROCESS_DOMAIN]]/ic/pub/components/css/libs/pcs/v1.1/alta/pcs-tasklist-min.css" type="text/css"/>
+
+    <!-- RequireJS configuration file -->
+    <script data-main="https://[[YOUR_PROCESS_DOMAIN]]/main/tasklist-main" src="https://[[YOUR_PROCESS_DOMAIN]]/ic/pub/components/js/libs/require/require.js"></script>
+<script>
+
+requirejs.config({
+    baseUrl: "https://[[YOUR_PROCESS_DOMAIN]]/ic/pub/components/js",
+    paths:
+    {
+        "knockout": "libs/knockout/knockout-3.4.0",
+        "jquery": "libs/jquery/jquery-3.1.1.min",
+        "jqueryui-amd": "libs/jquery/jqueryui-amd-1.12.0",
+        "ojs": "libs/oj/v3.2.0/min",
+        "ojL10n": "libs/oj/v3.2.0/ojL10n",
+        "ojtranslations": "libs/oj/v3.2.0/resources",
+        "text": "libs/require/text",
+        "promise": "libs/es6-promise/es6-promise-4.0.5.min",
+        "hammerjs": "libs/hammer/hammer-2.0.8.min",
+        "signals": "libs/js-signals/signals.min",
+        "ojdnd": "libs/dnd-polyfill/dnd-polyfill-1.0.0.min",
+        "customElements": "libs/webcomponents/CustomElements.min",
+        "proj4": "libs/proj4js/dist/proj4",
+        "underscore": "libs/underscore/underscore-1.8.3.min",
+        "pcs" : "libs/pcs/v1.1/min"
+    },
+    shim: {
+        'jquery': {
+            exports: ['jQuery', '$']
+        }
+    }
+});
+
+require(['jquery', 'pcs/pcs.tasklist' ],
+    function ($) {
+        //var tok = '[[USER_NAME]]' + ':' + '[[PASSWORD]]';
+        //$.pcsConnection.authInfo = 'Basic ' + btoa(tok);
+
+        $.pcsConnection   = {
+            serverURL: 'https://[[YOUR_PROCESS_DOMAIN]]',
+            authInfo: 'Basic xxxxxxx',
+        };
+
+        var tasklist = $('#tasklist');
+
+        $("#tasklist").tasklist({
+            "hideToolbar": false,
+            "hideFilter": true,
+            "hideSystemActions": false,
+            "hideCustomActions": false,
+            "hideSearch": true,
+            "hideSort": true,
+            "hideRefresh": false,
+            "hideFromUserName": false,
+            "hideAssignedDate": false,
+            "hideDueDate": false,
+            "hideCreatedDate": false,
+            "hideSummary": false,
+            "hideTaskDetails": false,
+            "pageSize": 10,
+            "hideSelectAll": true,
+            "selectedSortType": "assignedDate",
+            "selectedSortOrder": "ascending",
+            "taskDetailOptions": "{\"attachmentsOptions\": {\"showDocsInline\":true}}",
+            "systemActions": "SUSPEND,ESCALATE,RENEW,REASSIGN,INFO_REQUEST,WITHDRAW,ACQUIRE,PURGE,DELETE,RESUME,RELEASE",
+            "tasklistFilter": "{}"
+        });
+
+        // Defining the event listeners --
+        tasklist.on('tasklist:taskSelect', function(event, data){
+          $('body').css('height', '2000px');
+        });
+
+        tasklist.on('tasklist:taskCheck', function(event, data,instance){
+        });
+    }
+);
+
+</script>
+</head>
+<body>
+<div id="tasklist"></div>
+</body>
+</html>
